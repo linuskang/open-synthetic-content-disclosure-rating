@@ -2,172 +2,16 @@
 
 import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
-
-type Frequency = "O" | "F";
-type Role = "G" | "A" | "B";
-type Type = "T" | "M" | "C" | "A";
-type RatingCode = "AAA" | `${Frequency}${Role}${Type}`;
-
-interface Question {
-  id: string;
-  text: string;
-  options: { value: string; label: string; description: string }[];
-}
-
-const frequencyLabels: Record<Frequency, string> = {
-  O: "Occasional",
-  F: "Frequent",
-};
-
-const typeSentenceLabels: Record<Type, string> = {
-  T: "text",
-  M: "media",
-  C: "code",
-  A: "text, media, and code",
-};
-
-const questions: Question[] = [
-  {
-    id: "used",
-    text: "Did you use AI to help create this content?",
-    options: [
-      {
-        value: "yes",
-        label: "Yes",
-        description: "AI was used somewhere in the creation process.",
-      },
-      {
-        value: "no",
-        label: "No",
-        description: "The content was made without using AI.",
-      },
-    ],
-  },
-  {
-    id: "frequency",
-    text: "How often did you use AI in your workflow?",
-    options: [
-      {
-        value: "O",
-        label: "Occasional",
-        description: "AI was used from time to time, not throughout the workflow.",
-      },
-      {
-        value: "F",
-        label: "Frequent",
-        description: "AI was used regularly throughout the workflow.",
-      },
-    ],
-  },
-  {
-    id: "role",
-    text: "What role did AI play?",
-    options: [
-      {
-        value: "G",
-        label: "Generation",
-        description: "AI created new content or material used in the final work.",
-      },
-      {
-        value: "A",
-        label: "Assistance",
-        description: "AI helped the creator, but did not directly generate the final material.",
-      },
-      {
-        value: "B",
-        label: "Both",
-        description: "AI both created material and assisted the creator.",
-      },
-    ],
-  },
-  {
-    id: "type",
-    text: "What type of content did AI work on?",
-    options: [
-      {
-        value: "T",
-        label: "Text",
-        description: "Written or textual content.",
-      },
-      {
-        value: "M",
-        label: "Media",
-        description: "Images, video, audio, graphics, or other media.",
-      },
-      {
-        value: "C",
-        label: "Code",
-        description: "Source code, scripts, markup, or configuration.",
-      },
-      {
-        value: "A",
-        label: "All",
-        description: "Text, media, and code were all involved.",
-      },
-    ],
-  },
-];
-
-const allRatings: RatingCode[] = [
-  "AAA",
-  ...(
-    ["O", "F"] as Frequency[]
-  ).flatMap((freq) =>
-    (["G", "A", "B"] as Role[]).flatMap((role) =>
-      (["T", "M", "C", "A"] as Type[]).map(
-        (type) => `${freq}${role}${type}` as RatingCode
-      )
-    )
-  ),
-];
-
-function getRatingSentence(code: RatingCode): string {
-  if (code === "AAA") return "No AI was used.";
-
-  const freq = frequencyLabels[code[0] as Frequency].toLowerCase();
-  const role = code[1] as Role;
-  const type = typeSentenceLabels[code[2] as Type];
-
-  if (role === "G") return `Project uses ${freq} generated ${type}.`;
-  if (role === "A") return `Project uses ${freq} assistance for ${type}.`;
-  return `Project uses ${freq} generation and assistance for ${type}.`;
-}
-
-function Table({
-  title,
-  rows,
-}: {
-  title: string;
-  rows: { code: string; name: string; meaning: string }[];
-}) {
-  return (
-    <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
-      <h3 className="px-4 pt-4 text-lg font-semibold text-neutral-900">
-        {title}
-      </h3>
-      <table className="w-full text-left text-sm">
-        <thead>
-          <tr className="text-neutral-500">
-            <th className="px-4 py-2 font-medium w-16">Code</th>
-            <th className="px-4 py-2 font-medium w-32">Name</th>
-            <th className="px-4 py-2 font-medium">Meaning</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-neutral-200">
-          {rows.map((row) => (
-            <tr key={row.code} className="border-t border-neutral-200">
-              <td className="px-4 py-2 font-mono font-medium text-neutral-900">
-                {row.code}
-              </td>
-              <td className="px-4 py-2 text-neutral-700">{row.name}</td>
-              <td className="px-4 py-2 text-neutral-700">{row.meaning}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
+import { RatingTable } from "./components/rating-table";
+import {
+  allRatings,
+  getRatingSentence,
+  questions,
+  type Frequency,
+  type RatingCode,
+  type Role,
+  type Type,
+} from "./rating-data";
 
 export default function Home() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -314,7 +158,7 @@ export default function Home() {
             Each rating consists of 3 letters:
           </p>
           <div className="space-y-4">
-            <Table
+            <RatingTable
               title="Frequency"
               rows={[
                 {
@@ -329,7 +173,7 @@ export default function Home() {
                 },
               ]}
             />
-            <Table
+            <RatingTable
               title="Role"
               rows={[
                 {
@@ -350,7 +194,7 @@ export default function Home() {
                 },
               ]}
             />
-            <Table
+            <RatingTable
               title="Type"
               rows={[
                 {

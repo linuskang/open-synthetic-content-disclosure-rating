@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![](https://oscdr.linuskang.au/banner.png)
 
-## Getting Started
+# Open Synthetic Content Disclosure Rating System
 
-First, run the development server:
+OSCDR is an extremely simple way to show your clients how and where AI was used in your projects.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Get your rating
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Learn more about the OSCDR rating system and get your rating at:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### https://oscdr.linuskang.au
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# How is the rating calculated?
 
-## Learn More
+Each rating consists of 3 letters:
 
-To learn more about Next.js, take a look at the following resources:
+- **Frequency**: A (Absent), O (Occasional), F (Frequent)
+- **Role**: G (Generation), A (Assistance), B (Both)
+- **Content**: T (Text), M (Media), C (Code), A (All)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If no AI was used in your project, you will get the **AAA** rating.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Please note, this rating does not speak to the quality of your projects. It is merely a way to easily see how AI was used in your project.
 
-## Deploy on Vercel
+# Resources
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Get up-to-date rating images at ``/public/ratings``
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Credits
+
+This project is under the MIT license. Feel free to use it however you want, just ensure to credit this resource.
+
+<a href="https://oscdr.linuskang.au/ratings/fgc.png">
+  <img src="https://oscdr.linuskang.au/ratings/fgc.png" width="100" alt="FGC rating">
+</a>
+
+*This project was created with frequent use of AI for code generation*.
+
+Made with ❤️ by Linus.
